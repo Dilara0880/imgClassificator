@@ -13,7 +13,7 @@ This is a web service for image classification. Users can upload an image, and t
 5. Install the dependencies:
 `pip install -r requirements.txt`
 6. Start the server:
-`python main.py`
+`uvicorn main:app --reload`
 7. Open your web browser and go to http://127.0.0.1:8000
 8. You will see the homepage where you can upload an image
 9. Click on the "Выбрать файл" button and select an image file from your local machine
