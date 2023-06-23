@@ -1,0 +1,11 @@
+venv/
+
+lib/
+bin/
+.idea/
+*.pyc
+*.pyo
+__pycache__/
+
+uploads/
+.env
