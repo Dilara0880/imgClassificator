@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from PIL import Image
 import torch
 from torchvision import models, transforms
-import urllib.request
+
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -16,8 +16,8 @@ templates = Jinja2Templates(directory="templates")
 model = models.resnet50(pretrained=True)
 model.eval()
 
-labels_url = "https://raw.githubusercontent.com/anishathalye/imagenet-simple-labels/master/imagenet-simple-labels.json"
-class_names = urllib.request.urlopen(labels_url).read().decode("utf-8").splitlines()
+with open('imagenet-simple-labels.json') as label_file:
+    class_names = [class_name[1:-3] for class_name in label_file.readlines()]
 
 preprocess = transforms.Compose([
     transforms.Resize(256),
@@ -35,7 +35,7 @@ def classify_image(image_path):
         output = model(image_tensor)
     _, predicted_idx = torch.max(output, 1)
     predicted_class = class_names[predicted_idx.item()]
-    return predicted_class[1:-2]
+    return predicted_class
 
 
 @app.get("/", response_class=HTMLResponse)
